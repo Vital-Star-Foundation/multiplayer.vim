@@ -44,7 +44,7 @@ function! multiplayer#Connect(profile_file, player_profile)
 	let s:players[getpid()].range = range
 	call <SID>Write()
 	let my_pid = getpid()
-	call system('mkfifo /tmp/vim_multi_player_pipe_' . my_pid)
+	call system('mkfifo -m a=rw /tmp/vim_multi_player_pipe_' . my_pid)
 	let s:sleep_job = job_start(['/bin/sh', '-c', 'sleep infinity > /tmp/vim_multi_player_pipe_' . my_pid])
 	sleep 100m " make sure sleep keeps the cat alive
 	call job_start('cat /tmp/vim_multi_player_pipe_' . my_pid, {"out_cb": function("s:MyHandlerOut")})
